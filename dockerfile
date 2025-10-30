@@ -1,14 +1,20 @@
-# Layer1: Use P
-FROM Node.js
-# Layer2: Set working directory
+# Use official Node image
+FROM node:20
+
+# Create app directory
 WORKDIR /app
-# Layer3: Copy files
-COPY requirements.txt .
-# Layer4: Run the app
-RUN -r requirements.txt
-# copy all files to the current directory
+
+# Copy package files first
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy rest of app
 COPY . .
-# define the environment variable: Expose port
+
+# Expose port
 EXPOSE 5000
+
 # Command to run app
-CMD ["Node.js”]
+CMD ["node", "app.js"]
